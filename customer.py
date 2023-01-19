@@ -62,15 +62,9 @@ class Customer:
 
     def check_backpack(purchased_cans):
         """Will display the cans contained in purchased_cans list in backpack"""
-        can = 0
-        for can in purchased_cans:
-            can += 1
-            if can > 1:
-                # is this how to determine length??
-            # if backpack.purchased_cans.length > 0:
-                user_interface.output_text("You have no cans in your backpack")
-            else:
-                for can in purchased_cans:
-                    can += 1
-                # for can in backpack.purchased_cans:
-                    user_interface.output_text(can.name)
+        if len(purchased_cans) > 1:
+            user_interface.output_text("You have no cans in your backpack")
+        else:
+            for can in purchased_cans:
+                user_interface.output_text(can.name)
+

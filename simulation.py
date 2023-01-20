@@ -1,6 +1,8 @@
 from customer import Customer
 from soda_machine import SodaMachine 
 import user_interface
+from backpack import Backpack 
+import backpack
 
 class Simulation:
     def __init__(self):
@@ -13,6 +15,7 @@ class Simulation:
         will_proceed = True
 
         while will_proceed:
+
             user_option = user_interface.simulation_main_menu()
             if user_option == 0:
                 soda_machine.begin_transaction(customer)
@@ -20,7 +23,6 @@ class Simulation:
                 customer.check_coins_in_wallet()
                 # customer.check_coins_in_wallet(self)
             elif user_option == 2:
-                customer.check_backpack()
-                # customer.check_backpack(purchased_cans)
+                customer.check_backpack()           
             else:
                 will_proceed = False

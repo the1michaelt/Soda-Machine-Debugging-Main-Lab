@@ -1,4 +1,5 @@
 import os
+import soda_machine
 # This file is meant to be imported as a module, not a class. 
 # This is similar to how the random module is imported.
 # Do not create a User Interface class in this file. 
@@ -39,14 +40,14 @@ def display_customer_wallet_info(coins_list, total_value):
 
 def display_welcome():
     """Initial method asking user if they'll make a purchase. No errors."""
-    print("\nWelcome to the soda machine.  We only take coins as payment. \n")
-    user_response = continue_prompt("Would you like to make a purchase? (y/n):")
+    print("\nWelcome to the soda machine. We only take coins as payment. \n")
+    user_response = continue_prompt("Would you like to make a purchase? (y/n): ")
     if user_response:
         return True
     else:
         print("Please return another time to make a selection. Have a great day.")
         return False
-
+        
 
 def output_text(text):
     """User input method that will print to console any string passed in as an argument"""
@@ -73,12 +74,12 @@ def soda_selection(inventory):
     validated_user_selection = (False, None)
     soda_options = get_unique_can_names(inventory)
     while validated_user_selection[0] is False:
+        i = 0
         print("Please choose from the following options:")
-        i = 1
         for can in soda_options:
             print(f"\n\tEnter -{i}- for {can} : ${can.price}")
             i= +1
-        user_selection = try_parse_int(input("Selection:"))
+        user_selection = try_parse_int(input("Enter number: "))
         validated_user_selection = validate_coin_choice(user_selection, soda_options)
     return validated_user_selection[1]
 
@@ -88,7 +89,7 @@ def validate_coin_choice(selection, unique_cans):
     if 0 < selection <= len(unique_cans):
         return True, unique_cans[selection - 1].name
     else:
-        print("Not a valid selection\n")
+        print("Not a valid selection. Please choose again.\n")
         return False, None
 
 
@@ -139,7 +140,7 @@ def coin_selection():
         user_input = try_parse_int(input())
         validated_user_selection = validate_coin_selection(user_input)
         if validated_user_selection[0] is False:
-            print("Not a valid selection try again")
+            print("Not a valid selection. Please try again.")
     return validated_user_selection[1]
 
 

@@ -6,25 +6,27 @@ class SodaMachine:
     def __init__(self):
         self.register = []
         self.inventory = []
+        self.fill_register() 
+        self.fill_inventory()
 
     def fill_register(self):
         """Method will fill SodaMachine's register with certain amounts of each coin when called."""
-        for coin in range(8):
+        for index in range(8):
             self.register.append(coins.Quarter())
-        for coin in range(10):
+        for index in range(10):
             self.register.append(coins.Dime())
-        for coin in range(20):
+        for index in range(20):
             self.register.append(coins.Nickel())
-        for coin in range(50):
+        for index in range(50):
             self.register.append(coins.Penny())
 
     def fill_inventory(self):
         """Method will fill SodaMachine's cans list with certain amounts of each can when called."""
-        for can in range(10):
+        for index in range(10):
             self.inventory.append(cans.Cola())
-        for can in range(10):
+        for index in range(10):
             self.inventory.append(cans.OrangeSoda())
-        for can in range(10):
+        for index in range(10):
             self.inventory.append(cans.RootBeer())
 
     def begin_transaction(self, customer):
@@ -35,16 +37,15 @@ class SodaMachine:
 
     def run_transaction(self, customer):
 
-        selected_soda_name = user_interface.soda_selection(self.inventory)
-        # selected_soda_name = user_interface.soda_selection(self.inventory)
 
+        selected_soda_name = user_interface.soda_selection(self.inventory)
+        
         selected_soda = self.get_inventory_soda(selected_soda_name)
 
         customer_payment = customer.gather_coins_from_wallet(selected_soda_name)
 
         self.calculate_transaction(customer_payment, selected_soda, customer)
-        # self.calculate_transaction(customer_payment, selected_soda_name, customer)
-
+        
         self.output_text("Transaction complete")
 
 
@@ -54,24 +55,20 @@ class SodaMachine:
             change_value = self.determine_change_value(total_payment_value, selected_soda.price)
             customer_change = self.gather_change_from_register(change_value)
             if customer_change is None:
-                self.output_text('Dispensing ${total_payment_value} back to customer')
-                # user_interface.output_text('Dispensing ${total_payment_value} back to customer')
+                user_interface.output_text(f'Dispensing ${total_payment_value} back to customer')
                 customer.add_coins_to_wallet(customer_payment)
                 self.return_inventory(selected_soda)
             else:
                 self.deposit_coins_into_register(customer_payment)
                 customer.add_coins_to_wallet(customer_change)
                 customer.add_can_to_backpack(selected_soda)
-                self.end_message(selected_soda, change_value)
-                # user_interface.end_message(selected_soda, change_value)
+                user_interface.end_message(selected_soda, change_value)
         elif total_payment_value == selected_soda.price:
             self.deposit_coins_into_register(customer_payment)
             customer.add_can_to_backpack(selected_soda)
-            self.end_message(selected_soda, 0)
-            # user_interface.end_message(selected_soda, 0)
+            user_interface.end_message(selected_soda, 0)
         else:
-            self.output_text("You do not have enough money to purchase this item, returning payment")
-            # user_interface.output_text("You do not have enough money to purchase this item, returning payment")
+            user_interface.output_text("You do not have enough money to purchase this item, returning payment")
             customer.add_coins_to_wallet(customer_payment)
             self.return_inventory(selected_soda)
 
@@ -94,8 +91,7 @@ class SodaMachine:
             elif change_value == 0:
                 break
             else:
-                # user_interface.output_text("Error: Machine does not have enough change to complete transaction")
-                self.output_text("Error: Machine does not have enough change to complete transaction")
+                user_interface.output_text("Error: Machine does not have enough change to complete transaction")
                 self.deposit_coins_into_register(change_list)
                 change_list = None
                 break
@@ -127,6 +123,7 @@ class SodaMachine:
 
     def calculate_coin_value(self, coin_list):
         """Takes in a list of coins, returns the monetary value of list."""
+        total_value= 0
         for coin in coin_list:
             total_value += coin.value
         return round(total_value, 2)

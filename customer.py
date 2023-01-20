@@ -1,6 +1,8 @@
 from wallet import Wallet
 from backpack import Backpack
+import backpack
 import user_interface
+import soda_machine
 
 class Customer:
     def __init__(self):
@@ -60,11 +62,11 @@ class Customer:
         total_value = round(total_value, 3)
         user_interface.display_customer_wallet_info(coins_quantity, total_value)
 
-    def check_backpack(purchased_cans):
+    def check_backpack():
         """Will display the cans contained in purchased_cans list in backpack"""
-        if len(purchased_cans) > 1:
+        if backpack.purchased_cans.length > 1:
             user_interface.output_text("You have no cans in your backpack")
         else:
-            for can in purchased_cans:
+            for can in backpack.purchased_cans:
                 user_interface.output_text(can.name)
 
